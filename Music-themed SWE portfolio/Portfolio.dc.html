@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; }
+    @keyframes beatPulse { 0% { transform: scaleY(0.35); } 25% { transform: scaleY(1); } 50% { transform: scaleY(0.5); } 75% { transform: scaleY(0.82); } 100% { transform: scaleY(0.35); } }
+    @keyframes vinylSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes stringPluck {
+      0% { transform: translateY(0); }
+      8% { transform: translateY(-13px); }
+      20% { transform: translateY(9px); }
+      34% { transform: translateY(-6px); }
+      48% { transform: translateY(4px); }
+      62% { transform: translateY(-2px); }
+      78% { transform: translateY(1px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes gentlePulse { 0%, 100% { transform: scale(1); opacity: 0.55; } 50% { transform: scale(1.22); opacity: 0.9; } }
+    @keyframes cardPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.018); } }
+    a { color: #f4f2ee; }
+    a:hover { color: #cbb8ff; }
+  </style>
+  <script src="./image-slot.js"></script>
+</helmet>
+<div style="position:relative;min-height:100vh;background:{{ pageBg }};background-image:radial-gradient(rgba(255,255,255,{{ dotOpacity }}) 1px, transparent 1px);background-size:22px 22px;font-family:'Sora',sans-serif;color:#f4f2ee;overflow-x:hidden;transition:background-color 0.1s linear">
+  <div style="position:fixed;top:-220px;left:-160px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,#ff8fd8 0%,transparent 70%);opacity:0.22;filter:blur(40px);pointer-events:none;z-index:0"></div>
+  <div style="position:fixed;bottom:-240px;right:-180px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,#6fa8ff 0%,transparent 70%);opacity:0.18;filter:blur(40px);pointer-events:none;z-index:0"></div>
+
+  <div id="__cursor-ring" style="position:fixed;top:0;left:0;width:32px;height:32px;margin-left:-16px;margin-top:-16px;pointer-events:none;z-index:9999;transition:width .2s ease,height .2s ease,margin .2s ease">
+    <div style="position:absolute;inset:0;border-radius:50%;border:1.5px solid #cbb8ff;box-shadow:0 0 12px 1px #cbb8ff77;opacity:0.7;animation:gentlePulse 0.9s ease-in-out infinite;transition:border-color .2s ease,box-shadow .2s ease"></div>
+  </div>
+  <div id="__cursor-dot" style="position:fixed;top:0;left:0;width:5px;height:5px;margin-left:-2.5px;margin-top:-2.5px;border-radius:50%;background:#f4f2ee;box-shadow:0 0 8px 2px #ffffff88;pointer-events:none;z-index:9999"></div>
+
+  <div style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,12,0.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.08)">
+    <div style="max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:22px 32px 10px">
+      <div data-cursor-hover="true" onClick="{{ goAbout }}" style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;cursor:pointer;letter-spacing:0.2px">Bryan Jiang</div>
+      <div style="display:flex;gap:36px">
+        <div data-cursor-hover="true" onClick="{{ goAbout }}" style="{{ navStyles.about }}">About</div>
+        <div data-cursor-hover="true" onClick="{{ goProjects }}" style="{{ navStyles.projects }}">Projects</div>
+        <div data-cursor-hover="true" onClick="{{ goContact }}" style="{{ navStyles.contact }}">Contact</div>
+      </div>
+    </div>
+    <div style="max-width:1080px;margin:0 auto;padding:10px 32px 14px;display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ strings }}" as="s" hint-placeholder-count="5">
+        <div data-cursor-hover="true" onClick="{{ s.onClick }}" onAnimationEnd="{{ s.onAnimationEnd }}" style="{{ s.style }}" style-hover="{{ s.hoverStyle }}"></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="height:118px"></div>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:880px;margin:0 auto;padding:60px 32px 100px">
+
+      <div style="font-family:'Newsreader',serif;font-size:64px;line-height:1.05;font-weight:500;letter-spacing:-0.5px;color:{{ heroTitleColor }};transition:color 0.1s linear">Bryan Jiang</div>
+      <div style="font-size:19px;color:{{ heroSubColor }};margin-top:14px;letter-spacing:0.2px;transition:color 0.1s linear">Software Engineer · Musician · Game Developer</div>
+      <div style="font-size:16px;line-height:1.7;color:{{ heroBodyColor }};margin-top:22px;max-width:560px;text-wrap:pretty;transition:color 0.1s linear">I build systems the way I write music &mdash; carefully layered, a little experimental, and tuned until they feel right. Currently shipping AI tooling at Microsoft, and building strategy-game AI on the side.</div>
+
+    </div>
+    <div style="width:100vw;position:relative;left:50%;transform:translateX(-50%);margin-top:44px;display:flex;align-items:center;justify-content:center;gap:5px;height:150px;padding:0 48px;box-sizing:border-box">
+      <sc-for list="{{ heroBars }}" as="bar" hint-placeholder-count="80">
+        <div style="{{ bar.style }}"></div>
+      </sc-for>
+    </div>
+    <div style="max-width:880px;margin:0 auto;padding:0 32px">
+
+      <div style="margin-top:80px">
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;margin-bottom:34px">Experience</div>
+        <div style="position:relative;padding-left:28px">
+          <div style="position:absolute;left:3px;top:6px;bottom:6px;width:2px;background:linear-gradient(#ff8fd8,#6fa8ff)"></div>
+          <sc-for list="{{ experience }}" as="job" hint-placeholder-count="3">
+            <div style="position:relative;margin-bottom:40px">
+              <div style="position:absolute;left:-28px;top:5px;width:8px;height:8px;border-radius:50%;background:#f4f2ee;box-shadow:0 0 0 4px #0a0a0c,0 0 10px 2px #cbb8ff99"></div>
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline">
+                <div style="font-size:18px;font-weight:500;color:#f4f2ee">{{ job.role }}</div>
+                <div style="font-size:13px;color:#8b8896">{{ job.period }}</div>
+              </div>
+              <div style="font-size:14px;color:#b3aec7;margin-top:2px">{{ job.company }}</div>
+              <sc-for list="{{ job.bullets }}" as="b" hint-placeholder-count="2">
+                <div style="font-size:14.5px;line-height:1.65;color:#c9c6d6;margin-top:8px;padding-left:16px;position:relative">
+                  <span style="position:absolute;left:0;top:9px;width:5px;height:1.5px;background:#cbb8ff"></span>
+                  {{ b }}
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:70px">
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;margin-bottom:30px">A few projects</div>
+        <div style="display:flex;gap:22px;flex-wrap:wrap">
+          <sc-for list="{{ highlightProjects }}" as="p" hint-placeholder-count="3">
+            <div data-cursor-hover="true" onClick="{{ p.onOpen }}" style="{{ p.cardStyle }}">
+              <div style="font-size:15.5px;font-weight:500;color:#f4f2ee">{{ p.title }}</div>
+              <div style="font-size:13px;color:#9a96a8;margin-top:6px;line-height:1.5">{{ p.tagline }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1080px;margin:0 auto;padding:50px 32px 110px;display:flex;gap:56px;align-items:flex-start">
+
+      <div style="width:170px;flex-shrink:0;position:sticky;top:140px;display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+          <div data-cursor-hover="true" onClick="{{ p.onOpen }}" style="{{ p.navItemStyle }}">{{ p.title }}</div>
+        </sc-for>
+      </div>
+
+      <div style="flex:1;min-width:0">
+        <div style="position:relative;height:520px;margin-bottom:44px">
+          <sc-for list="{{ activeProjectData.mood }}" as="m" hint-placeholder-count="5">
+            <div style="{{ m.wrapStyle }}">
+              <image-slot id="{{ m.id }}" shape="rounded" radius="14" placeholder="{{ m.placeholder }}" style="width:100%;height:100%"></image-slot>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+          <div style="{{ activeProjectData.vinylStyle }}"></div>
+          <div>
+            <div style="font-family:'Newsreader',serif;font-size:32px;font-weight:500;color:#f4f2ee">{{ activeProjectData.title }}</div>
+            <div style="font-size:13.5px;color:#8b8896;margin-top:6px">{{ activeProjectData.period }}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+              <sc-for list="{{ activeProjectData.tags }}" as="t" hint-placeholder-count="3">
+                <div style="font-size:12px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,0.08);color:#c9c6d6">{{ t }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:30px;max-width:600px">
+          <sc-for list="{{ activeProjectData.bullets }}" as="b" hint-placeholder-count="3">
+            <div style="font-size:15px;line-height:1.7;color:#c9c6d6;margin-top:10px;padding-left:16px;position:relative">
+              <span style="position:absolute;left:0;top:10px;width:5px;height:1.5px;background:#cbb8ff"></span>
+              {{ b }}
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:640px;margin:0 auto;padding:60px 32px 120px">
+      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;margin-bottom:10px">Let's talk</div>
+      <div style="font-size:15px;color:#b3aec7;line-height:1.7;margin-bottom:44px;max-width:480px;text-wrap:pretty">Open to new roles and collaborations &mdash; reach out any time.</div>
+
+      <div style="display:flex;flex-direction:column;gap:1px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,0.1)">
+        <a data-cursor-hover="true" href="mailto:bryanjiang15@gmail.com" style="display:flex;justify-content:space-between;padding:20px 24px;background:rgba(255,255,255,0.05);text-decoration:none;color:#f4f2ee;animation:cardPulse 0.85s ease-in-out infinite;animation-delay:0s">
+          <span style="font-size:14.5px;color:#8b8896">Email</span>
+          <span style="font-size:15px">bryanjiang15@gmail.com</span>
+        </a>
+        <a data-cursor-hover="true" href="https://github.com/bryanjiang15" target="_blank" style="display:flex;justify-content:space-between;padding:20px 24px;background:rgba(255,255,255,0.05);text-decoration:none;color:#f4f2ee;animation:cardPulse 0.85s ease-in-out infinite;animation-delay:0.15s">
+          <span style="font-size:14.5px;color:#8b8896">GitHub</span>
+          <span style="font-size:15px">github.com/bryanjiang15</span>
+        </a>
+        <a data-cursor-hover="true" href="https://www.linkedin.com/in/bryanbj15/" target="_blank" style="display:flex;justify-content:space-between;padding:20px 24px;background:rgba(255,255,255,0.05);text-decoration:none;color:#f4f2ee;animation:cardPulse 0.85s ease-in-out infinite;animation-delay:0.3s">
+          <span style="font-size:14.5px;color:#8b8896">LinkedIn</span>
+          <span style="font-size:15px">linkedin.com/in/bryanbj15</span>
+        </a>
+        <a data-cursor-hover="true" href="uploads/resume_file-1785631423066.pdf" download="Bryan_Jiang_Resume.pdf" style="display:flex;justify-content:space-between;padding:20px 24px;background:linear-gradient(135deg,rgba(255,143,216,0.12),rgba(111,168,255,0.12));text-decoration:none;color:#f4f2ee;animation:cardPulse 0.85s ease-in-out infinite;animation-delay:0.45s">
+          <span style="font-size:14.5px;color:#c9c6d6">Resume</span>
+          <span style="font-size:15px">Download PDF &darr;</span>
+        </a>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:3px;height:44px;margin-top:60px;opacity:0.55">
+        <sc-for list="{{ contactBars }}" as="bar" hint-placeholder-count="32">
+          <div style="{{ bar.style }}"></div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const EXPERIENCE = [
+  {
+    role: 'Applied AI Software Engineer Intern',
+    company: 'Microsoft, Redmond, WA',
+    period: 'May 2026 – Aug 2026',
+    bullets: [
+      'Built a tab-group context system for Copilot in Edge (C++, Chromium) enabling parallel AI workflows for millions of users.',
+      'Automated the bug-to-PR pipeline with a multi-agent Copilot system; cut session load time 80% with background loading and copy-on-write caching.'
+    ]
+  },
+  {
+    role: 'Software Engineer',
+    company: 'Here Technologies, Ann Arbor, MI',
+    period: 'Oct 2025 – Present',
+    bullets: [
+      'Built a pipeline fusing satellite imagery and geospatial data to auto-detect entry points for large public venues.',
+      'Applied CV and navigation algorithms (Python, Scala, Java, OpenCV, GeoPandas) and deployed on AWS for crowd-aware, accessible routing.'
+    ]
+  },
+  {
+    role: 'Software Engineer Intern',
+    company: 'Clark Associates, Ann Arbor, MI',
+    period: 'May 2025 – Dec 2025',
+    bullets: [
+      'Shipped account-history features for a multi-tenant e-commerce platform (.NET, React, TypeScript).',
+      'Cut query latency ~80% with MSSQL stored procedures; streamlined CI/CD and added Sentry and Kubernetes monitoring.'
+    ]
+  }
+];
+
+const PROJECT_LIST = [
+  {
+    id: 'ai-agent',
+    title: 'Self-Iterating Strategy AI Agent',
+    tagline: 'An LLM agent that plans and improves its own tactics.',
+    period: 'March 2026 – Present',
+    tags: ['Python', 'OpenAI API', 'Game-Tree Search'],
+    highlight: true,
+    bullets: [
+      'Multi-stage LLM reasoning agent that plans tactical actions via goal-guided game-tree search.',
+      "Self-analysis pipeline that finds strategic weaknesses and tunes the agent's evaluation model over time.",
+      'Reproducible evaluation framework for benchmarking agent architectures end-to-end.'
+    ]
+  },
+  {
+    id: 'tcg-engine',
+    title: 'AI-Driven Trading Card Engine',
+    tagline: 'A game engine that writes its own card games.',
+    period: 'Sep 2024 – Present · Founder & Developer',
+    tags: ['Node.js', 'React', 'Python', 'Postgres'],
+    highlight: true,
+    bullets: [
+      'Generates full TCG rulesets, abilities, and sprite assets from natural-language input.',
+      'Custom Python SDK and agent compiler turning text and visual node graphs into game logic.',
+      'Async multi-agent infrastructure cut API latency 3x for real-time simulation testing.'
+    ]
+  },
+  {
+    id: 'humanshape',
+    title: 'HumanShape',
+    tagline: '3D body-shape analysis for design research.',
+    period: '2024',
+    tags: ['Python', 'Flask', 'Dash', 'PCA'],
+    bullets: [
+      'Visualizes and analyzes large human-body-shape datasets for human-centered design research.',
+      'Calculates model dimensions and simulates hand postures via PCA and regression.'
+    ]
+  },
+  {
+    id: 'eldritch',
+    title: 'Corrupt Eldritch Order',
+    tagline: 'A rogue-like shoot-\u2019em-up, shipped on Steam.',
+    period: 'WolverineSoft · Steam & Itch.io',
+    tags: ['Unity', 'C#', 'Game Design'],
+    highlight: true,
+    bullets: [
+      'Rogue-like shoot-\u2019em-up with procedurally generated levels, enemies, and weapons.',
+      'Designed and implemented every enemy behavior, including a final boss with 30+ abilities.'
+    ]
+  },
+  {
+    id: 'tails-of-war',
+    title: 'Tails of War',
+    tagline: 'A turn-based strategy game about positioning.',
+    period: '2023',
+    tags: ['Unity', 'Game AI', 'Design'],
+    bullets: [
+      'Turn-based multiplayer strategy game centered on unit positioning and resource management.',
+      'Built adaptable core AI governing opponent behavior.'
+    ]
+  }
+];
+
+const VINYL_COLORS = ['#1c1c20', '#1c1c20', '#1c1c20', '#1c1c20', '#1c1c20'];
+const VINYL_GLOWS = ['#ff8fd8', '#b48cff', '#6fa8ff', '#ff8fd8', '#b48cff'];
+const MOOD_LAYOUT = [
+  { top: 0, left: '0%', w: 220, h: 190, rot: -4 },
+  { top: 34, left: '29%', w: 250, h: 215, rot: 3 },
+  { top: 0, left: '61%', w: 210, h: 230, rot: -3 },
+  { top: 280, left: '9%', w: 235, h: 175, rot: 5 },
+  { top: 260, left: '58%', w: 225, h: 205, rot: -6 }
+];
+const STRING_FREQS = [82.41, 110, 146.83, 196, 246.94];
+
+function makeBars(count, maxHeight, colors) {
+  const bars = [];
+  for (let i = 0; i < count; i++) {
+    const h = maxHeight * (0.28 + 0.72 * Math.abs(Math.sin(i * 0.9 + Math.cos(i * 0.35))));
+    const dur = 0.7 + (i % 5) * 0.14;
+    const delay = -((i * 0.11) % dur);
+    bars.push({
+      style: {
+        width: '4px',
+        height: h + 'px',
+        borderRadius: '3px',
+        background: colors[i % colors.length],
+        boxShadow: '0 0 6px 0px ' + colors[i % colors.length] + '77',
+        transformOrigin: 'center',
+        animationName: 'beatPulse',
+        animationDuration: dur + 's',
+        animationDelay: delay + 's',
+        animationTimingFunction: 'ease-in-out',
+        animationIterationCount: 'infinite',
+        flexShrink: 0
+      }
+    });
+  }
+  return bars;
+}
+
+function vinylStyle(color, size, spinSeconds, glow) {
+  return {
+    width: size + 'px',
+    height: size + 'px',
+    borderRadius: '50%',
+    background: 'repeating-radial-gradient(circle, ' + color + ' 0px, ' + color + ' 5px, #f4f2ee 5px, #f4f2ee 9px)',
+    boxShadow: '0 8px 24px rgba(54,47,69,0.12), 0 0 22px 1px ' + glow + '55',
+    position: 'relative',
+    animation: 'vinylSpin ' + spinSeconds + 's linear infinite',
+    flexShrink: 0
+  };
+}
+
+function mixChannel(a, b, t) { return Math.round(a + (b - a) * t); }
+function mixHex(hexA, hexB, t) {
+  const pa = [hexA.slice(1,3), hexA.slice(3,5), hexA.slice(5,7)].map((h) => parseInt(h, 16));
+  const pb = [hexB.slice(1,3), hexB.slice(3,5), hexB.slice(5,7)].map((h) => parseInt(h, 16));
+  const r = mixChannel(pa[0], pb[0], t), g = mixChannel(pa[1], pb[1], t), bl = mixChannel(pa[2], pb[2], t);
+  return 'rgb(' + r + ',' + g + ',' + bl + ')';
+}
+
+class Component extends DCLogic {
+  state = { page: 'about', activeProject: null, pluckedNav: null, scrollY: 0 };
+
+  componentDidMount() {
+    this.ring = document.getElementById('__cursor-ring');
+    this.dot = document.getElementById('__cursor-dot');
+    this._scroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => {
+        this._raf = null;
+        this.setState({ scrollY: window.scrollY });
+      });
+    };
+    window.addEventListener('scroll', this._scroll, { passive: true });
+    this._move = (e) => {
+      if (this.dot) this.dot.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+      if (this.ring) this.ring.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+    };
+    this.ringInner = this.ring ? this.ring.firstElementChild : null;
+    this._over = (e) => {
+      if (this.ring && e.target.closest && e.target.closest('[data-cursor-hover]')) {
+        this.ring.style.width = '52px';
+        this.ring.style.height = '52px';
+        this.ring.style.marginLeft = '-26px';
+        this.ring.style.marginTop = '-26px';
+        if (this.ringInner) this.ringInner.style.borderColor = '#e3aeb8';
+      }
+    };
+    this._out = (e) => {
+      if (this.ring && e.target.closest && e.target.closest('[data-cursor-hover]')) {
+        this.ring.style.width = '32px';
+        this.ring.style.height = '32px';
+        this.ring.style.marginLeft = '-16px';
+        this.ring.style.marginTop = '-16px';
+        if (this.ringInner) this.ringInner.style.borderColor = '#9fc0c9';
+      }
+    };
+    window.addEventListener('mousemove', this._move);
+    document.addEventListener('mouseover', this._over);
+    document.addEventListener('mouseout', this._out);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this._move);
+    document.removeEventListener('mouseover', this._over);
+    document.removeEventListener('mouseout', this._out);
+    window.removeEventListener('scroll', this._scroll);
+  }
+
+  ensureAudio() {
+    if (!this.audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      this.audioCtx = new Ctx();
+    }
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+  }
+
+  playNote(freq) {
+    this.ensureAudio();
+    const ctx = this.audioCtx;
+    const t0 = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(0.16, t0 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.9);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.95);
+  }
+
+  pluck(i) {
+    this.playNote(STRING_FREQS[i]);
+    this.setState({ pluckedNav: i });
+  }
+
+  clearPluck() {
+    this.setState({ pluckedNav: null });
+  }
+
+  goAbout() { this.setState({ page: 'about', activeProject: null }); window.scrollTo(0, 0); }
+  goProjects() { this.setState({ page: 'projects', activeProject: this.state.activeProject || PROJECT_LIST[0].id }); window.scrollTo(0, 0); }
+  goContact() { this.setState({ page: 'contact', activeProject: null }); window.scrollTo(0, 0); }
+  openProject(id) { this.setState({ page: 'projects', activeProject: id }); window.scrollTo(0, 0); }
+  backToProjects() { this.setState({ activeProject: null }); window.scrollTo(0, 0); }
+
+  renderVals() {
+    const page = this.state.page;
+    const scrollProgress = page === 'about' ? Math.max(0, Math.min(1, this.state.scrollY / 650)) : 1;
+    const pageBg = mixHex('#f4f2ee', '#0a0a0c', scrollProgress);
+    const dotOpacity = 0.05 + 0.09 * scrollProgress;
+    const heroTitleColor = mixHex('#151316', '#f4f2ee', scrollProgress);
+    const heroSubColor = mixHex('#5b5468', '#b3aec7', scrollProgress);
+    const heroBodyColor = mixHex('#3a3542', '#c9c6d6', scrollProgress);
+    const navBase = { cursor: 'pointer', fontSize: '14.5px', letterSpacing: '0.2px', color: '#b3aec7', paddingBottom: '4px', borderBottom: '2px solid transparent' };
+    const navActive = { ...navBase, color: '#f4f2ee', fontWeight: '500', borderBottom: '2px solid #cbb8ff', textShadow: '0 0 10px #cbb8ff55' };
+
+    const strings = STRING_FREQS.map((f, i) => ({
+      onClick: () => this.pluck(i),
+      onAnimationEnd: () => this.clearPluck(),
+      style: {
+        height: '2px',
+        background: this.state.pluckedNav === i ? '#ff8fd8' : '#cfcbd9',
+        borderRadius: '2px',
+        cursor: 'pointer',
+        transformOrigin: 'center',
+        boxShadow: this.state.pluckedNav === i ? '0 0 10px 1px #ff8fd899' : 'none',
+        animationName: this.state.pluckedNav === i ? 'stringPluck' : 'none',
+        animationDuration: '0.85s',
+        animationTimingFunction: 'cubic-bezier(.36,.07,.19,.97)',
+        transition: 'background .3s ease, box-shadow .3s ease'
+      },
+      hoverStyle: { background: '#cbb8ff', boxShadow: '0 0 8px 1px #cbb8ff88' }
+    }));
+
+    const mapProject = (p, size, spin) => ({
+      ...p,
+      vinylStyle: vinylStyle(VINYL_COLORS[PROJECT_LIST.indexOf(p) % VINYL_COLORS.length], size, spin, VINYL_GLOWS[PROJECT_LIST.indexOf(p) % VINYL_GLOWS.length]),
+      onOpen: () => this.openProject(p.id)
+    });
+
+    const activeId = this.state.activeProject || PROJECT_LIST[0].id;
+    const projects = PROJECT_LIST.map((p) => ({
+      ...mapProject(p, 140, 9),
+      navItemStyle: {
+        cursor: 'pointer',
+        padding: '9px 0',
+        fontSize: '14px',
+        color: p.id === activeId ? '#f4f2ee' : '#8b8896',
+        fontWeight: p.id === activeId ? '500' : '400',
+        borderLeft: p.id === activeId ? '2px solid #cbb8ff' : '2px solid transparent',
+        textShadow: p.id === activeId ? '0 0 8px #cbb8ff44' : 'none',
+        paddingLeft: '14px',
+        transition: 'color .15s ease'
+      }
+    }));
+    const highlightProjects = PROJECT_LIST.filter((p) => p.highlight);
+
+    const activeP = PROJECT_LIST.find((pp) => pp.id === activeId);
+    const activeProjectData = {
+      ...activeP,
+      vinylStyle: vinylStyle(VINYL_COLORS[PROJECT_LIST.indexOf(activeP) % VINYL_COLORS.length], 110, 7, VINYL_GLOWS[PROJECT_LIST.indexOf(activeP) % VINYL_GLOWS.length]),
+      mood: MOOD_LAYOUT.map((l, i) => ({
+        id: 'mood-' + activeP.id + '-' + i,
+        placeholder: activeP.title + ' — image ' + (i + 1),
+        wrapStyle: {
+          position: 'absolute',
+          top: l.top + 'px',
+          left: l.left,
+          width: l.w + 'px',
+          height: l.h + 'px',
+          transform: 'rotate(' + l.rot + 'deg)',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06)',
+          borderRadius: '14px'
+        }
+      }))
+    };
+
+    return {
+      isAbout: page === 'about',
+      isProjects: page === 'projects',
+      isContact: page === 'contact',
+      pageBg,
+      dotOpacity,
+      heroTitleColor,
+      heroSubColor,
+      heroBodyColor,
+      activeProjectData,
+      navStyles: { about: page === 'about' ? navActive : navBase, projects: page === 'projects' ? navActive : navBase, contact: page === 'contact' ? navActive : navBase },
+      goAbout: () => this.goAbout(),
+      goProjects: () => this.goProjects(),
+      goContact: () => this.goContact(),
+      backToProjects: () => this.backToProjects(),
+      strings,
+      heroBars: makeBars(80, 120, ['#ff8fd8', '#b48cff', '#6fa8ff']),
+      contactBars: makeBars(32, 30, ['#b48cff', '#6fa8ff']),
+      experience: EXPERIENCE,
+      projects,
+      highlightProjects: highlightProjects.map((p, i) => ({
+        ...p,
+        onOpen: () => this.openProject(p.id),
+        cardStyle: {
+          flex: '1 1 220px',
+          minWidth: '200px',
+          cursor: 'pointer',
+          padding: '22px',
+          borderRadius: '18px',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          animation: 'cardPulse 0.85s ease-in-out infinite',
+          animationDelay: (i * 0.15) + 's'
+        }
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

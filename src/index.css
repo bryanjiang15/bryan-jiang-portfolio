@@ -1,0 +1,281 @@
+@import "tailwindcss" source(none);
+
+@source "./*.tsx";
+@source "./components/*.tsx";
+@source "./components/about/*.tsx";
+@source "./components/contact/*.tsx";
+@source "./components/projects/*.tsx";
+@source "./components/music/*.tsx";
+@source "./hooks/*.ts";
+@source "./data/*.ts";
+@source "../index.html";
+
+@theme {
+  --color-ink: #070708;
+  --color-cream: #f4f2ee;
+  --color-haze: #bbdbfd;
+  --color-mute: #8b8896;
+  --color-soft: #c9c6d6;
+  --color-ink-soft: #3a4050;
+  --color-neon-pink: #ff8fd8;
+  --color-neon-violet: #b48cff;
+  --color-neon-cyan: #6fa8ff;
+
+  --font-display: "Newsreader", ui-serif, Georgia, serif;
+  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: auto;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-neon-violet) 45%, transparent);
+    color: var(--color-cream);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Light zone nav — toggled by ThemeGlitch ScrollTrigger on About */
+html.theme-light .nav-shell {
+  border-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  background: color-mix(in srgb, var(--color-haze) 88%, white 12%);
+}
+
+html.theme-light .nav-brand,
+html.theme-light .nav-link {
+  color: var(--color-ink);
+}
+
+html.theme-light .nav-brand:hover {
+  color: color-mix(in srgb, var(--color-neon-violet) 70%, var(--color-ink));
+}
+
+html.theme-light .nav-muted {
+  color: color-mix(in srgb, var(--color-ink) 40%, transparent);
+}
+
+html.theme-light .nav-muted:hover {
+  color: var(--color-ink);
+}
+
+html.theme-light .nav-link {
+  text-decoration-color: color-mix(in srgb, var(--color-neon-violet) 75%, var(--color-ink));
+}
+
+/* Full pastel shell — Projects route only */
+html.page-projects {
+  background: var(--color-haze);
+}
+
+html.page-projects body {
+  background: var(--color-haze);
+}
+
+html.page-projects .app-shell {
+  background: var(--color-haze);
+  color: var(--color-ink);
+}
+
+html.page-projects .app-dots {
+  opacity: 0.035;
+  background-image: radial-gradient(rgba(7, 7, 8, 0.55) 1px, transparent 1px);
+}
+
+/* Mood board drift wall — endless horizontal scroll + soft bob */
+@keyframes mood-drift-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes mood-drift-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+.mood-drift-scroll {
+  animation: mood-drift-x 32s linear infinite;
+}
+
+.mood-drift-bob {
+  animation: mood-drift-bob ease-in-out infinite;
+  will-change: translate;
+}
+
+.mood-drift-img {
+  opacity: 0.38;
+  filter: contrast(1.5) saturate(0.4) hue-rotate(198deg) brightness(0.72)
+    drop-shadow(2px 0 0 rgba(255, 100, 190, 0.45))
+    drop-shadow(-2px 0 0 rgba(90, 190, 255, 0.5));
+  mix-blend-mode: soft-light;
+}
+
+.mood-drift-text {
+  color: color-mix(in srgb, var(--color-ink) 55%, var(--color-neon-cyan));
+  mix-blend-mode: multiply;
+  letter-spacing: 0.04em;
+  text-wrap: balance;
+}
+
+.mood-drift-dark .mood-drift-img {
+  opacity: 0.32;
+  filter: contrast(1.35) saturate(0.55) hue-rotate(210deg) brightness(0.55)
+    drop-shadow(2px 0 0 rgba(255, 143, 216, 0.4))
+    drop-shadow(-2px 0 0 rgba(111, 168, 255, 0.45));
+  mix-blend-mode: screen;
+}
+
+.mood-drift-dark .mood-drift-text {
+  color: color-mix(in srgb, var(--color-cream) 55%, var(--color-neon-violet));
+  mix-blend-mode: screen;
+}
+
+@keyframes contact-eq {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+}
+
+.contact-eq-bar {
+  animation: contact-eq 1.1s ease-in-out infinite;
+}
+
+/* Pulse while a Spotify / local track is playing */
+@keyframes cursor-ring-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+    border-color: #cbb8ff;
+    box-shadow: 0 0 10px 1px rgba(203, 184, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+    border-color: #ff8fd8;
+    box-shadow:
+      0 0 14px 2px rgba(255, 143, 216, 0.4),
+      0 0 22px 1px rgba(180, 140, 255, 0.22);
+  }
+}
+
+@keyframes cursor-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    opacity: 0.65;
+    box-shadow: 0 0 9px 2px rgba(255, 143, 216, 0.45);
+  }
+}
+
+@keyframes music-box-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-neon-violet) 35%, transparent),
+      0 6px 20px -12px rgba(180, 140, 255, 0.4);
+    filter: brightness(1.04);
+  }
+}
+
+.cursor-ring-pulse {
+  animation: cursor-ring-pulse var(--music-beat, 0.5s) ease-in-out infinite;
+}
+
+.cursor-dot-pulse {
+  animation: cursor-dot-pulse var(--music-beat, 0.5s) ease-in-out infinite;
+}
+
+html.music-playing [data-music-pulse] {
+  animation: music-box-pulse var(--music-beat, 0.5s) ease-in-out infinite;
+}
+
+html.music-playing [data-music-pulse-slow] {
+  animation: music-box-pulse var(--music-beat-slow, 1s) ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mood-drift-scroll,
+  .mood-drift-bob,
+  .contact-eq-bar,
+  .cursor-ring-pulse,
+  .cursor-dot-pulse,
+  html.music-playing [data-music-pulse],
+  html.music-playing [data-music-pulse-slow] {
+    animation: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button,
+  body.has-custom-cursor [data-cursor] {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
