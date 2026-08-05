@@ -59,7 +59,7 @@ export const site = {
   bioLead:
     'CS student from University of Michigan, previously interned at Microsoft as a SWE intern in MAI. AI systems, game engine/development, computer vision, music production',
   bioFade:
-    ', volleyball, volleyball opposite, injured ankles and knees, #TheyBlameTheBeasts, electronic, jazz, contemporary jazz but not the weird stuff, weird stuff but only if it makes me seem cool and niche, I Can See Mountains, one piece is real, Berri D',
+    ', volleyball, volleyball opposite, injured ankles and knees, #TheyBlameTheBeasts, electronic, jazz, I promise I will mix and master this time, Second Coming X Revelation, I Can See Mountains, one piece is real, EEAAO, Berri D',
   email: 'bryanjiang15@gmail.com',
   linkedin: 'https://www.linkedin.com/in/bryanbj15/',
   github: 'https://github.com/bryanjiang15',
