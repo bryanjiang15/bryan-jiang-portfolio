@@ -57,9 +57,22 @@ export const site = {
   name: 'Bryan Jiang',
   roles: 'Software Engineer · Musician · Game Developer',
   bioLead:
-    'CS student from University of Michigan, previously interned at Microsoft as a SWE intern in MAI. AI systems, game engine/development, computer vision, music production',
-  bioFade:
-    ', volleyball, volleyball opposite, injured ankles and knees, #TheyBlameTheBeasts, electronic, jazz, I promise I will mix and master this time, Second Coming X Revelation, I Can See Mountains, one piece is real, EEAAO, Berri D',
+    'CS student from University of Michigan, previously interned at Microsoft as a SWE intern in MAI. Interests in infrastructure/tooling, Applied AI in games, and simulation. Let\'s chat about AI systems, game engine/development, computer vision, music production.',
+  bioFade: [
+    'volleyball',
+    'opposite',
+    '#TheyBlameTheBeasts',
+    'electronic',
+    'jazz',
+    'AOAOAOA',
+    'OOGA BOOGA',
+    'Second Coming X Revelation',
+    'I Can See Mountains',
+    'one piece is real',
+    'EEAAO',
+    'Berri D',
+    'Necessary Unnecessary'
+  ],
   email: 'bryanjiang15@gmail.com',
   linkedin: 'https://www.linkedin.com/in/bryanbj15/',
   github: 'https://github.com/bryanjiang15',
