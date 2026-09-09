@@ -172,6 +172,35 @@ html.page-projects .app-dots {
   mix-blend-mode: screen;
 }
 
+/* Bio fade phrase labels — same horizontal loop as mood drift */
+.bio-fade-strip {
+  /* Room for mood-drift-bob (±10px) so labels aren't clipped by overflow */
+  padding-block: 12px;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.bio-fade-strip.bio-fade-static,
+.bio-fade-static {
+  mask-image: none;
+  width: 100%;
+  max-width: 100%;
+}
+
+.bio-fade-label {
+  padding: 0.35em 0.7em;
+  border: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+  border-radius: 2px;
+  color: color-mix(in srgb, var(--color-cream) 58%, var(--color-neon-violet));
+  background: color-mix(in srgb, var(--color-cream) 4%, transparent);
+  white-space: nowrap;
+}
+
 @keyframes contact-eq {
   0%,
   100% {
@@ -258,6 +287,10 @@ html.music-playing [data-music-pulse-slow] {
   html.music-playing [data-music-pulse],
   html.music-playing [data-music-pulse-slow] {
     animation: none !important;
+  }
+
+  .bio-fade-strip {
+    mask-image: none;
   }
 }
 
